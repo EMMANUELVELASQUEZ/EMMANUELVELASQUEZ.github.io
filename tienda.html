@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title> Ropa & Abarrotes Roching </title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f2f2f2;
+    }
+
+    header {
+      background-color: #4FC3F7;
+      color: yellow;
+      padding: 20px;
+      text-align: center;
+    }
+
+    nav {
+      background: #333;
+      color: white;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .productos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .producto {
+      background: white;
+      border-radius: 10px;
+      padding: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .producto img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+    }
+
+    .btn {
+      background: #4FC3F7;
+      color: white;
+      border: none;
+      padding: 10px;
+      margin-top: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .redes {
+      position: fixed;
+      right: 10px;
+      bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .redes a {
+      background: #4FC3F7;
+      padding: 25px;
+      color: white;
+      border-radius: 50%;
+      text-align: center;
+      font-size: 20px;
+      text-decoration: none;
+    }
+
+    #carrito {
+      position: fixed;
+      top: 80px;
+      right: 10px;
+      background: white;
+      border: 1px solid #ccc;
+      padding: 10px;
+      max-width: 300px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    form {
+      margin: 30px;
+      padding: 20px;
+      background: white;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 10px;
+    }
+
+    form input {
+      display: block;
+      margin: 10px 0;
+      padding: 10px;
+      width: 100%;
+    }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Ropa & Abarrotes Roching</h1>
+  </header>
+
+  <nav>
+    <a href="#ropa">Ropa</a>
+    <a href="#abarrotes">Abarrotes</a>
+   
+  </nav>
+
+  <section id="ropa">
+    <h2 style="text-align:center;">Ropa</h2>
+    <div class="productos" id="ropa-lista"></div>
+  </section>
+
+  <section id="abarrotes">
+    <h2 style="text-align:center;">Abarrotes</h2>
+    <div class="productos" id="abarrotes-lista"></div>
+  </section>
+
+
+  <div id="carrito">
+    <h3>Carrito</h3>
+    <ul id="lista-carrito"></ul>
+    <p>Total: $<span id="total">0</span></p>
+  </div>
+
+  <div class="redes">
+    <a href="https://wa.me/4722030716" target="_blank">🟢</a>
+    <a href="https://www.facebook.com/share/1AU3yoTYiG/?mibextid=wwXIfr" target="_blank">📘</a>
+    <a href="https://instagram.com" target="_blank">📸</a>
+  </div>
+
+  <script>
+  const productosRopa = [
+  { nombre: "Camisa", precio: 250, img: "camisa.jpg" },
+  { nombre: "Pantalón", precio: 400, img: "pantalon.jpg" },
+  { nombre: "Vestido", precio: 550, img: "vestido.jpeg" },
+  { nombre: "Boxer", precio: 236, img: "boxer.jpg" },
+  // Agrega más productos hasta 20
+];
+
+const productosAbarrotes = [
+  { nombre: "Arroz", precio: 40, img: "arroz.webp" },
+  { nombre: "Frijol", precio: 35, img: "frijol.jpg" },
+  { nombre: "Aceite", precio: 70, img: "aceite.webp"},
+  // Agrega más productos hasta 20
+];
+
+
+    const carrito = [];
+    const ropaLista = document.getElementById('ropa-lista');
+    const abarrotesLista = document.getElementById('abarrotes-lista');
+    const listaCarrito = document.getElementById('lista-carrito');
+    const totalCarrito = document.getElementById('total');
+
+    function mostrarProductos(productos, contenedor) {
+      productos.forEach(prod => {
+        const div = document.createElement('div');
+        div.className = 'producto';
+        div.innerHTML = `
+          <img src="${prod.img}" alt="${prod.nombre}">
+          <h4>${prod.nombre}</h4>
+          <p>$${prod.precio}</p>
+          <button class="btn" onclick='agregarAlCarrito(${JSON.stringify(prod)})'>Agregar</button>
+        `;
+        contenedor.appendChild(div);
+      });
+    }
+
+    function agregarAlCarrito(producto) {
+      carrito.push(producto);
+      actualizarCarrito();
+    }
+
+    function actualizarCarrito() {
+      listaCarrito.innerHTML = "";
+      let total = 0;
+      carrito.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = `${item.nombre} - $${item.precio}`;
+        listaCarrito.appendChild(li);
+        total += item.precio;
+      });
+      totalCarrito.textContent = total;
+    }
+
+    mostrarProductos(productosRopa, ropaLista);
+    mostrarProductos(productosAbarrotes, abarrotesLista);
+  </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contacto - Tienda Roching</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f7f7f7;
+    }
+
+    header {
+      background-color: #4FC3F7;
+      color: white;
+      text-align: center;
+      padding: 30px 0;
+    }
+
+    .info-contacto, .formulario-contacto {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: #4FC3F7;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 25px;
+      background-color: #4FC3F7;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #e64a19;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #eee;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Contáctanos</h1>
+  </header>
+
+  <section class="info-contacto">
+    <h2>Tienda Mixta Roching</h2>
+    <p><strong>Ubicación:</strong> Mozomboa, Veracruz</p>
+    <p><strong>Correo:</strong> empresaRochin@gmail.com</p>
+    <p><strong>WhatsApp:</strong> +52 472 203 0716</p>
+  </section>
+
+  <section class="formulario-contacto">
+    <h2>Escríbenos un mensaje</h2>
+    <form onsubmit="enviarMensaje(event)">
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" name="nombre" required />
+
+      <label for="correo">Correo electrónico:</label>
+      <input type="email" id="correo" name="correo" required />
+
+      <label for="mensaje">Mensaje:</label>
+      <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
+
+      <button type="submit">Enviar mensaje</button>
+    </form>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Tienda Rochin - Todos los derechos reservados.</p>
+  </footer>
+
+  <script>
+    function enviarMensaje(event) {
+      event.preventDefault();
+      alert("¡Gracias por contactarnos! Tu mensaje ha sido enviado (simulado).");
+      event.target.reset();
+    }
+  </script>
+
+</body>
+</html>
